@@ -1,0 +1,73 @@
+console.log("Rock Paper Scissor game - The Odin Project");
+    function getComputerChoice(){
+        switch( random(3) ){
+            case 0: return "ROCK"; break;
+            case 1: return "PAPER"; break;
+            case 2: return "SCISSORS"; break;
+            default: return "NINGUNA"; break;
+        }
+    }
+    
+    function getPlayerChoice(){
+        return prompt("Choose : ROCK, PAPER, SCISSORS")
+    }
+
+    function random(number){
+        return Math.floor( Math.random()*number )
+    }
+
+    function playRound(playerSelection, computerSelection){
+        console.log( "Player choose: "+ playerSelection+" Computer choose: "+computerSelection );
+        if( playerSelection === "ROCK" && computerSelection === "ROCK" ){
+            return "DRAW"
+        }else if(playerSelection === "ROCK" && computerSelection === "PAPER"){
+            return "COMPUTER"
+        }else if(playerSelection === "ROCK" && computerSelection === "SCISSORS"){
+            return "PLAYER"
+        }else if(playerSelection === "PAPER" && computerSelection === "PAPER"){
+            return "DRAW"
+        }else if(playerSelection === "PAPER" && computerSelection === "ROCK"){
+            return "PLAYER"
+        }else if(playerSelection === "PAPER" && computerSelection === "SCISSORS"){
+            return "COMPUTER"
+        }else if(playerSelection === "SCISSORS" && computerSelection === "SCISSORS"){
+            return "DRAW"
+        }else if(playerSelection === "SCISSORS" && computerSelection === "PAPER"){
+            return "PLAYER"
+        }else if(playerSelection === "SCISSORS" && computerSelection === "ROCK"){
+            return "COMPUTER"
+        }else{
+            return "ERROR"
+        }    
+    }
+
+    function score( scorePlayer, scoreComputer ){
+        return ("Player score : " + scorePlayer + " Computer score : "+ scoreComputer);
+    }
+
+    function game(  ){
+        let scorePlayer = 0;
+        let scoreComputer = 0;
+        let winner = false;
+
+        while(!winner){
+            let round = playRound(getPlayerChoice(), getComputerChoice()) 
+            if (  round === "PLAYER"){
+                scorePlayer++;
+                console.log("PLAYER WINS - "+ score(scorePlayer, scoreComputer) );
+            }else if( round === "COMPUTER"){
+                scoreComputer++;
+                console.log("COMPUTER WINS - "+ score(scorePlayer, scoreComputer));
+            }else{
+                console.log("TIE - "+ score(scorePlayer, scoreComputer));
+            }
+
+            if( scorePlayer==5 || scoreComputer== 5){
+                console.log( scorePlayer==5?"The player won the game" : "The computer won the game" );
+                console.log(score(scorePlayer, scoreComputer));
+                winner = true;
+            }
+        }
+    }
+    
+    game();

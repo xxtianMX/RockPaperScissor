@@ -1,3 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissor...</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <div class="title">
+        <img src="./images/rock-paper-scissors001.png " alt="rock-paper-scissors">
+    </div>
+    <div class="game">
+        <div class="panel-game">
+            <div class="left-game">
+                <p class="weapon">Choose your weapon : </p>
+                <img id="PAPER" class="paper" src="./images/paper.jpg" alt="paper" width="128px" height="128px">
+                <img id="ROCK" src="./images/rock.jpg" alt="rock" width="128px" height="128px">
+                <img id="SCISSORS" src="./images/scissors.jpg" alt="scissors" width="128px" height="128px">
+            </div>
+            <div class="right-game">
+                <p>Player choose :  <span class="player-choose">X</span></p>
+                <p>Computer choose : <span class="computer-choose">Y</span></p>
+    
+                <p>The round winner is : <span class="ganador-choose">Z</span></p>
+    
+                <p>Player score : <span class="player-score">0</span></p>
+                <p>Computer score : <span class="computer-score">0</span></p>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
 <script>
     console.log("Rock Paper Scissor game - The Odin Project");
     function getComputerChoice(){
@@ -5,20 +40,22 @@
             case 0: return "ROCK"; break;
             case 1: return "PAPER"; break;
             case 2: return "SCISSORS"; break;
-            default: return "NINGUNA"
+            default: return "NINGUNA"; break;
         }
-    }
-    
-    function getPlayerChoice(){
-        return prompt("Choose : ROCK, PAPER, SCISSORS")
     }
 
     function random(number){
-        return Math.floor( Math.random()*number )
+        return Math.floor( Math.random()*number );
     }
 
     function playRound(playerSelection, computerSelection){
         console.log( "Player choose: "+ playerSelection+" Computer choose: "+computerSelection );
+        let player_choose = document.querySelector('.player-choose');
+        player_choose.textContent = playerSelection;
+
+        let computer_choose = document.querySelector('.computer-choose');
+        computer_choose.textContent = computerSelection;
+
         if( playerSelection === "ROCK" && computerSelection === "ROCK" ){
             return "DRAW"
         }else if(playerSelection === "ROCK" && computerSelection === "PAPER"){
@@ -42,35 +79,71 @@
         }    
     }
 
-    function score( scorePlayer, scoreComputer ){
+    function score( winner, scorePlayer, scoreComputer ){
+        let ganador_choose = document.querySelector('.ganador-choose');
+        ganador_choose.textContent = winner;
+
+        
+        if(winner === "PLAYER"){
+            let player_score = document.querySelector('.player-score');
+                player_score.textContent = ++scorePlayer;
+                //alert("Players wins ");
+        }else if( winner === "COMPUTER"){
+            let computer_score = document.querySelector('.computer-score');
+                computer_score.textContent = ++scoreComputer;
+                //alert("Computer wins ");
+        }else{
+            //alert(" TIE ");
+        }
+
+        getScore();
+
+        if( scorePlayer==5 || scoreComputer== 5){
+            alert( scorePlayer==5?"The player won the game" : "The computer won the game" );
+            clearScore();
+            }
+
         return ("Player score : " + scorePlayer + " Computer score : "+ scoreComputer);
     }
 
-    function game(  ){
-        let scorePlayer = 0;
-        let scoreComputer = 0;
-        let winner = false;
+    const weapons = document.querySelectorAll('img');
 
-        while(!winner){
-            let round = playRound(getPlayerChoice(), getComputerChoice()) 
-            if (  round === "PLAYER"){
-                scorePlayer++;
-                console.log("PLAYER WINS - "+ score(scorePlayer, scoreComputer) );
-            }else if( round === "COMPUTER"){
-                scoreComputer++;
-                console.log("COMPUTER WINS - "+ score(scorePlayer, scoreComputer));
-            }else{
-                console.log("TIE - "+ score(scorePlayer, scoreComputer));
-            }
+    weapons.forEach((weapon) => {
+        weapon.addEventListener('click', () => {
+           // alert(weapon.id);
+            game(weapon.id);
+        })
+    })
+        
+    function getScore(){
+        let player_score = document.querySelector('.player-score');
+        let computer_score = document.querySelector('.computer-score');
 
-            if( scorePlayer==5 || scoreComputer== 5){
-                console.log( scorePlayer==5?"The player won the game" : "The computer won the game" );
-                console.log(score(scorePlayer, scoreComputer));
-                winner = true;
-            }
-        }
+        scorePlayer = player_score.textContent;
+        scoreComputer = computer_score.textContent;
+
+        console.log(computer_score.textContent);
+    }
+
+    function clearScore(){
+        let player_score = document.querySelector('.player-score');
+            player_score.textContent = 0;
+                
+        let computer_score = document.querySelector('.computer-score');
+            computer_score.textContent = 0;
+    }
+
+    let scorePlayer = 0;
+    let scoreComputer = 0;
+    let winner = false;
+
+    function game(weapon){
+        console.log('Game begins...');
+        let round = playRound(weapon, getComputerChoice()); 
+        console.log('round : ' + round );
+        score(round, scorePlayer, scoreComputer) 
+        
     }
     
-    game();
-
 </script>
+</html>
